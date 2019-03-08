@@ -1,5 +1,6 @@
 const dotEnv = require("dotenv").config();
 const axios = require('axios');
+const fs = require('fs');
 const Spotify = require('node-spotify-api');
 var moment = require('moment');
 const keys = require("./keys");
@@ -18,17 +19,16 @@ moment().format();
 // console.log(now)
 // console.log(moment(now));
 
-console.log('\nHow to use Liri: \n\nnode liri.js, then type in one of the commands below: \n\nconcert-this <artist name> \nspotify-this-song <song name> \nmovie-this <movie name>');
-
 function operations() {
     liriActions = {
-        "concert-this": function (str) {
+        "spotify-this-song": function (str) {
+            
             const spotify = new Spotify({
                 id: keys.spotify.id,
                 secret: keys.spotify.secret
             });
             spotify
-                .search({ type: 'track', query: str, limit: 1 })
+                .search({ type: 'track', query: (str||'The Sign'), limit: 1 })
                 .then(function (response) {
                     console.log('Artist: ' + response.tracks.items[0].album.artists[0].name);
                     console.log('Song Name: ' + response.tracks.items[0].name);
@@ -39,7 +39,7 @@ function operations() {
                     console.log(err);
                 });
         },
-        "spotify-this-song": function (str) {
+        "concert-this": function (str) {
             axios.get('https://rest.bandsintown.com/artists/' + str + '/events?app_id=codingbootcamp')
                 .then(function (response) {
                     console.log('Venue Name: ' + response.data[0].venue.name);
@@ -51,7 +51,7 @@ function operations() {
                 });
         },
         "movie-this": function (str) {
-            axios.get("http://www.omdbapi.com/?apikey=trilogy&t="+str)
+            axios.get("http://www.omdbapi.com/?apikey=trilogy&t="+(str||'Mr. Nobody'))
                 .then(function (response) {
                     // console.log('API Response: '+response[0].lineup);
                     console.log('Title: ' + response.data.Title);
@@ -67,8 +67,35 @@ function operations() {
                     console.log(error);
                 });
         },
+        "do-what-it-says": function () {
+            var str = fs.readFileSync('./randon.txt','utf8');
+                const spotify = new Spotify({
+                    id: keys.spotify.id,
+                    secret: keys.spotify.secret
+                });
+                spotify
+                    .search({ type: 'track', query: (str||'The Sign'), limit: 1 })
+                    .then(function (response) {
+                        console.log('Artist: ' + response.tracks.items[0].album.artists[0].name);
+                        console.log('Song Name: ' + response.tracks.items[0].name);
+                        console.log('Album Name: ' + response.tracks.items[0].album.name);
+                        console.log('Preview: ' + response.tracks.items[0].preview_url);
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+        },
     }
 }
 
+
 operations();
-console.log(liriActions[process.argv[2]](process.argv.slice(3)));
+if(process.argv.length===3){
+    console.log(liriActions[process.argv[2]]());
+}else if (process.argv.length===2){
+    console.log('\nHow to use Liri: \n\nnode liri.js, then type in one of the commands below: \n\nconcert-this <artist name> \nspotify-this-song <song name> \nmovie-this <movie name> \ndo-what-it-says');
+}else{
+    console.log(liriActions[process.argv[2]](process.argv.slice(3)))
+}
+
+fs.appendFileSync('LiriLog.txt','\nCommand : '+ (process.argv[2]||'No Command') + " || Value: " + (process.argv.slice(3).join(' ')||'Default Value'));

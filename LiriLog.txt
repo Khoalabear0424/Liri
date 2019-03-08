@@ -1,0 +1,5 @@
+
+
+Command : spotify-this-song || Value: Just Dance
+Command : movie-this || Value: The Matrix
+Command : No Command || Value: Default Value
