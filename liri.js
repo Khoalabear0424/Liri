@@ -5,30 +5,15 @@ const Spotify = require('node-spotify-api');
 var moment = require('moment');
 const keys = require("./keys");
 
-moment().format();
-
-
-//ASK KIT/PAVAN FOR HELP
-// const date = moment("2019-03-10T00:00:00", moment.ISO_8601);
-// console.log(date);
-
-// var day = moment("1995-12-25");
-// console.log(day);
-
-// var now = moment();
-// console.log(now)
-// console.log(moment(now));
-
 function operations() {
     liriActions = {
         "spotify-this-song": function (str) {
-            
             const spotify = new Spotify({
                 id: keys.spotify.id,
                 secret: keys.spotify.secret
             });
             spotify
-                .search({ type: 'track', query: (str||'The Sign'), limit: 1 })
+                .search({ type: 'track', query: (str||'The Sign Ace of Base'), limit: 1 })
                 .then(function (response) {
                     console.log('Artist: ' + response.tracks.items[0].album.artists[0].name);
                     console.log('Song Name: ' + response.tracks.items[0].name);
@@ -44,7 +29,7 @@ function operations() {
                 .then(function (response) {
                     console.log('Venue Name: ' + response.data[0].venue.name);
                     console.log('Venue Location: ' + response.data[0].venue.city + ", " + response.data[0].venue.country);
-                    console.log('Event Date: ' + response.data[0].datetime.slice(0, 9));
+                    console.log('Event Date: ' + moment(response.data[0].datetime).format("MM/DD/YYYY"));
                 })
                 .catch(function (error) {
                     console.log(error);
