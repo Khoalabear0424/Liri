@@ -7,3 +7,15 @@ Command : spotify-this-song || Value: Default Value
 Command : No Command || Value: Default Value
 Command : spotify-this-song || Value: Default Value
 Command : concert-this || Value: Drake
+Command : No Command || Value: Default Value
+Command : spotify-this-song || Value: Drake
+Command : No Command || Value: Default Value
+Command : spotify-this-song || Value: Drake
+Command : No Command || Value: Default Value
+Command : spotify-this-song || Value: Default Value
+Command : spotify-this-song || Value: I Believe I Can Fly
+Command : movie-this || Value: Default Value
+Command : movie-this || Value: The Matrix
+Command : concert-this || Value: Default Value
+Command : concert-this || Value: Drake
+Command : do-what-it-says || Value: Default Value

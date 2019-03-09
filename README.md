@@ -19,5 +19,7 @@ Notice that the very last action does not require any specified name.  This last
 
 *node liri.js spotify-this-song Small World*
 
+**Here is an exmaple video of how to use Liri**
 
+![](Liri-Example.mp4)
 
